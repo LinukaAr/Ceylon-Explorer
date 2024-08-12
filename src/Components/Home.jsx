@@ -1,27 +1,24 @@
 import React from "react";
 import Button from "./layouts/Button";
 import { Link } from "react-scroll";
-import img from "../assets/img/hero.jpg";
+import img from "../assets/img/hero.png";
+import '../assets/css/Home.css'; 
 
 const Home = () => {
-  const backgroundColor = `bg-brightColor`;
   return (
-    <div className="min-h-screen lg:min-h-[90vh] flex flex-col justify-center lg:flex-row  items-center md:mx-32 mx-5 ">
-      <div className="flex flex-col text-center lg:text-start gap-5">
-        <h1 className="font-semibold text-5xl leading-tight">
-          Ceylon Explorer
-        </h1>
-        <p className="text-base font-semibold text-gray-500	 ">
-          Explore the beauty of Sri Lanka
-        </p>
-        <div className="lg:pl-24">
+    <div className="home-container">
+      <div className="text-section">
+        <h1 className="title">Ceylon Explorer</h1>
+        <p className="subtitle">Explore the beauty of Sri Lanka</p>
+        <div className="button-container">
           <Link to="destination" spy={true} smooth={true} duration={500}>
             {/* <Button title="Destinations✈️" backgroundColor={backgroundColor} /> */}
           </Link>
         </div>
       </div>
-      <div className="mt-14 lg:mt-0 w-full lg:w-4/5">
-        <img src={img} alt="img" />
+      
+      <div className="image-container">
+        <img src={img} alt="img" className="image" />
       </div>
     </div>
   );
