@@ -15,7 +15,7 @@ const Destination = () => {
         <DestinationCard
           img={img1}
           title="Galle"
-          para="Galle is a historic coastal city in Sri Lanka, renowned for its well-preserved 16th-century Dutch fort, charming colonial architecture, and vibrant cultural heritage"
+          para="Galle is a historic coastal city in Sri Lanka, renowned for its well-preserved 16th-century Dutch fort, charming colonial architecture"
         />
         <DestinationCard
           img={img2}

@@ -15,6 +15,7 @@ const Navbar = () => {
     <>
       <div className="navbar">
         <div className="navbar-left">
+          <img src="../../public/logo.png" alt="logo" className="navbar-logo" />
           <h1 className="navbar-title">Ceylon Explore</h1>
         </div>
 

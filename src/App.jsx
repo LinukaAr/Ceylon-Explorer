@@ -4,8 +4,8 @@ import Home from "./Components/Home";
 // import Features from "./Components/Features";
  import Destination from "./Components/Destination";
 // import About from "./Components/About";
-// import Contact from "./Components/Contact";
-// import Footer from "./Components/Footer";
+ import Contact from "./Components/Contact";
+import Footer from "./Components/Footer";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,13 +30,13 @@ function App() {
 
         <div id="about">
           <About />
-        </div>
+        </div>*/}
         <div id="contact">
           <Contact />
         </div>
         <div id="footer">
           <Footer />
-        </div> */}
+        </div> 
       </main>
     </>
   );

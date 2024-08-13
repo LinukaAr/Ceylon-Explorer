@@ -10,7 +10,14 @@
 
 /* Navbar Left Section */
 .navbar-left {
+  display: flex;
+  align-items: center;
   flex: 1;
+}
+
+.navbar-logo{
+  width: 60px;
+  margin-right: 1rem;
 }
 
 .navbar-title {
