@@ -50,7 +50,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <img src="../../public/logo.png" alt="logo" className="footer-logo"/>
+        <img src="logo.png" alt="logo" className="footer-logo"/>
         <p className="footer-bottom-text">
           &copy; developed by
           <span className="footer-highlight"> LinukaAr</span> | All rights

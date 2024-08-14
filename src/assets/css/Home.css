@@ -1,61 +1,64 @@
 /* Home.css */
 .home-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 1rem; /* Adjust margin for small screens */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem; /* Margin for small screens */
+}
+
+.text-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 60px; /* Adjusted for better responsiveness */
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.25rem; /* Adjusted for better responsiveness */
+  font-weight: 600;
+  color: #4A5568;
+}
+
+.button-container {
+  margin-top: 1rem;
+}
+
+.image-container {
+  margin-top: 2rem; /* Adjust spacing */
+  width: 100%;
+  max-width: 80%; /* Adjust maximum width */
+  display: flex;
+  justify-content: center;
+}
+
+.image {
+  height: auto; /* Adjust height to maintain aspect ratio */
+  max-height: 450px; /* Limit height to 450px */
+  object-fit: cover;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .home-container {
+    min-height: 90vh;
+    flex-direction: row;
+    margin: 0 2rem; /* Margin for larger screens */
   }
-  
-  @media (min-width: 768px) {
-    .home-container {
-      min-height: 90vh;
-      flex-direction: row;
-      margin: 0 2rem; /* Adjust margin for larger screens */
-    }
-  }
-  
+
   .text-section {
-    text-align: center;
-    margin-bottom: 2rem;
+    text-align: left;
+    padding-left: 2rem;
+  }
+
+  .title, .subtitle {
+    margin: auto; /* Center title and subtitle */
+    margin-left: 0; /* Remove left margin */
   }
   
-  @media (min-width: 768px) {
-    .text-section {
-      text-align: left;
-      padding-left: 2rem; 
-    }
-  }
-  
-  .title {
-    margin-left: 100px;
-    font-weight: 600;
-    font-size: 80px; 
-    line-height: 1.2;
-  }
-  
-  .subtitle {
-    margin-left: 100px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #4A5568; /* Adjust color */
-  }
-  
-  .button-container {
-    margin-top: 1rem;
-  }
-  
-  .image-container {
-    margin-top: 2rem; /* Adjust spacing */
-    width: 100%;
-    max-width: 80%; /* Adjust maximum width */
-    display: flex;
-    justify-content: center;
-  }
-  
-  .image {
-    height: 450px; /* Adjust height */
-    object-fit: cover;
-  }
-  
+}
