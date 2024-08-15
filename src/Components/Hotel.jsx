@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../assets/css/Hotel.css";
+import axios from "axios";
 
 const Hotel = () => {
   const [hotels, setHotels] = useState([]);
@@ -8,31 +9,29 @@ const Hotel = () => {
   const [priceRange, setPriceRange] = useState("");
   const [rating, setRating] = useState("");
   const [amenities, setAmenities] = useState("");
+  const [loading, setLoading] = useState(true); // State to handle loading status
+  const [error, setError] = useState(null); // State to handle errors
 
   useEffect(() => {
-    const sampleHotels = [
-      {
-        name: "Luxury Colombo Hotel",
-        location: "Colombo",
-        priceRange: "$200 - $300",
-        rating: 4.7,
-        amenities: ["Free Wi-Fi", "Pool", "Spa"],
-        image: "https://via.placeholder.com/150",
-        description: "A luxurious hotel in the heart of Colombo."
-      },
-      {
-        name: "Kandy Budget Inn",
-        location: "Kandy",
-        priceRange: "$50 - $100",
-        rating: 4.3,
-        amenities: ["Free Wi-Fi", "Breakfast Included"],
-        image: "https://via.placeholder.com/150",
-        description: "Affordable accommodation with great service."
-      },
-      // Add more hotel data here
-    ];
-    setHotels(sampleHotels);
-    setFilteredHotels(sampleHotels);
+    // Fetch hotel data from API
+    const fetchHotels = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/hotels"); // Replace with your API endpoint
+        if (Array.isArray(response.data)) {
+          setHotels(response.data);
+          setFilteredHotels(response.data);
+        } else {
+          console.error("Data received is not an array.");
+        }
+      } catch (err) {
+        console.error("There was an error fetching the hotel data!", err);
+        setError("Failed to load hotel data. Please try again later.");
+      } finally {
+        setLoading(false); // Set loading to false once the request is complete
+      }
+    };
+
+    fetchHotels();
   }, []);
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const Hotel = () => {
         (location === "" || hotel.location === location) &&
         (priceRange === "" || hotel.priceRange === priceRange) &&
         (rating === "" || hotel.rating >= parseFloat(rating)) &&
-        (amenities === "" || hotel.amenities.includes(amenities))
+        (amenities === "" || (hotel.amenities && hotel.amenities.includes(amenities))) // Ensure amenities is defined and is an array
       );
     });
     setFilteredHotels(filtered);
@@ -109,22 +108,29 @@ const Hotel = () => {
         </div>
       </div>
 
+      {loading && <p>Loading hotels...</p>} {/* Display loading status */}
+      {error && <p className="error-message">{error}</p>} {/* Display error message */}
+
       <div className="hotel-cards">
-        {filteredHotels.map((hotel, index) => (
-          <div key={index} className="hotel-card">
-            <img className="hotel-card-img" src={hotel.image} alt={hotel.name} />
-            <div className="hotel-card-content">
-              <h3 className="hotel-card-name">{hotel.name}</h3>
-              <p className="hotel-card-info">
-                Location: {hotel.location} | Price: {hotel.priceRange} | Rating: {hotel.rating} ★
-              </p>
-              <p className="hotel-card-info">
-                Amenities: {hotel.amenities.join(", ")}
-              </p>
-              <p className="hotel-card-description">{hotel.description}</p>
+        {Array.isArray(filteredHotels) && filteredHotels.length > 0 ? (
+          filteredHotels.map((hotel, index) => (
+            <div key={index} className="hotel-card">
+              <img className="hotel-card-img" src={hotel.image} alt={hotel.name} />
+              <div className="hotel-card-content">
+                <h3 className="hotel-card-name">{hotel.name}</h3>
+                <p className="hotel-card-info">
+                  Location: {hotel.location} | Price: {hotel.priceRange} | Rating: {hotel.rating} ★
+                </p>
+                <p className="hotel-card-info">
+                  Amenities: {Array.isArray(hotel.amenities) ? hotel.amenities.join(", ") : "N/A"}
+                </p>
+                <p className="hotel-card-description">{hotel.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No hotels available.</p>
+        )}
       </div>
     </div>
   );

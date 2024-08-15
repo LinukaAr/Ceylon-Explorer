@@ -8,6 +8,7 @@ import Footer from "./Components/Footer";
 import Guide from "./Components/Guide"; 
 import Hotel from "./Components/Hotel";
 import Rent from "./Components/Rent";
+import BusinessRegistration from "./Components/BusinessRegistration";
 
 
 
@@ -41,11 +42,15 @@ function App() {
           {/* Guide */}
           <Route path="/guide" element={<Guide />} />
 
-           {/* Hotel */}
+          {/* Hotel */}
            <Route path="/hotel" element={<Hotel />} />
 
-            {/* Rent */}
+          {/* Rent */}
           <Route path="/rent" element={<Rent />} />
+
+           {/* Business Registration */}
+           <Route path="/business" element={<BusinessRegistration />} />
+
 
         </Routes>
       </main>

@@ -1,51 +1,47 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../assets/css/Rent.css";
 
 const Rent = () => {
   const [vehicles, setVehicles] = useState([]);
   const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [type, setType] = useState("");
-  const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("");
-  const [transmission, setTransmission] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const sampleVehicles = [
-      {
-        name: "Toyota Prius",
-        type: "Car",
-        location: "Colombo",
-        priceRange: "$50 - $100",
-        transmission: "Automatic",
-        image: "https://via.placeholder.com/150",
-        description: "Comfortable hybrid car, perfect for city driving."
-      },
-      {
-        name: "Honda CRF 250",
-        type: "Bike",
-        location: "Kandy",
-        priceRange: "$20 - $50",
-        transmission: "Manual",
-        image: "https://via.placeholder.com/150",
-        description: "Ideal for off-road adventures."
-      },
-      // Add more vehicle data here
-    ];
-    setVehicles(sampleVehicles);
-    setFilteredVehicles(sampleVehicles);
+    const fetchVehicles = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/vehicles");
+        console.log("API Response:", response.data); // Log the API response
+        if (Array.isArray(response.data)) {
+          setVehicles(response.data);
+          setFilteredVehicles(response.data);
+        } else {
+          console.error("Data received is not an array.");
+          setError("The data received from the server is not in the expected format.");
+        }
+      } catch (err) {
+        console.error("There was an error fetching the vehicle data!", err);
+        setError("Failed to load vehicle data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVehicles();
   }, []);
 
   useEffect(() => {
     const filtered = vehicles.filter((vehicle) => {
       return (
         (type === "" || vehicle.type === type) &&
-        (location === "" || vehicle.location === location) &&
-        (priceRange === "" || vehicle.priceRange === priceRange) &&
-        (transmission === "" || vehicle.transmission === transmission)
+        (priceRange === "" || vehicle.pricePerDay === priceRange)
       );
     });
     setFilteredVehicles(filtered);
-  }, [vehicles, type, location, priceRange, transmission]);
+  }, [vehicles, type, priceRange]);
 
   return (
     <div className="vehicle-container">
@@ -67,20 +63,6 @@ const Rent = () => {
           </select>
         </div>
         <div>
-          <label className="vehicle-filter-label" htmlFor="location">Location:</label>
-          <select
-            className="vehicle-filter-select"
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          >
-            <option value="">All Locations</option>
-            <option value="Colombo">Colombo</option>
-            <option value="Kandy">Kandy</option>
-            {/* Add more location options here */}
-          </select>
-        </div>
-        <div>
           <label className="vehicle-filter-label" htmlFor="priceRange">Price Range:</label>
           <select
             className="vehicle-filter-select"
@@ -89,35 +71,24 @@ const Rent = () => {
             onChange={(e) => setPriceRange(e.target.value)}
           >
             <option value="">All Price Ranges</option>
-            <option value="$20 - $50">$20 - $50</option>
-            <option value="$50 - $100">$50 - $100</option>
-          </select>
-        </div>
-        <div>
-          <label className="vehicle-filter-label" htmlFor="transmission">Transmission:</label>
-          <select
-            className="vehicle-filter-select"
-            id="transmission"
-            value={transmission}
-            onChange={(e) => setTransmission(e.target.value)}
-          >
-            <option value="">All Transmissions</option>
-            <option value="Automatic">Automatic</option>
-            <option value="Manual">Manual</option>
+            <option value="100$">100$</option>
+            {/* Add more price ranges here */}
           </select>
         </div>
       </div>
 
+      {loading && <p>Loading...</p>}
+      {error && <p className="error">{error}</p>}
+
       <div className="vehicle-cards">
-        {filteredVehicles.map((vehicle, index) => (
-          <div key={index} className="vehicle-card">
-            <img className="vehicle-card-img" src={vehicle.image} alt={vehicle.name} />
+        {filteredVehicles.map((vehicle) => (
+          <div key={vehicle.id} className="vehicle-card">
             <div className="vehicle-card-content">
-              <h3 className="vehicle-card-name">{vehicle.name}</h3>
+              <h3 className="vehicle-card-name">{vehicle.model}</h3>
               <p className="vehicle-card-info">
-                Type: {vehicle.type} | Location: {vehicle.location} | Price: {vehicle.priceRange} | Transmission: {vehicle.transmission}
+                Type: {vehicle.type} | Price Per Day: {vehicle.pricePerDay}
               </p>
-              <p className="vehicle-card-description">{vehicle.description}</p>
+              <p className="vehicle-card-info">Phone: {vehicle.phone}</p>
             </div>
           </div>
         ))}

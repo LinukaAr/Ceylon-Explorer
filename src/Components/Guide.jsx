@@ -11,45 +11,15 @@ const Guide = () => {
   const [language, setLanguage] = useState("");
   const [search, setSearch] = useState("");
 
-  // Sample guide data (replace with your actual data)
+  // Fetch guide data from the API
   useEffect(() => {
-    const sampleGuides = [
-      {
-        name: "John Doe",
-        area: "Colombo",
-        age: "30-40",
-        gender: "Male",
-        experience: "5 years",
-        languages: ["English", "Sinhala"],
-        rating: 4.5,
-        bio: "Experienced tour guide with deep knowledge of Colombo.",
-        image: "https://via.placeholder.com/150"
-      },
-      {
-        name: "Jane Smith",
-        area: "Kandy",
-        age: "20-30",
-        gender: "Female",
-        experience: "3 years",
-        languages: ["English", "Tamil"],
-        rating: 4.8,
-        bio: "Friendly and knowledgeable about Kandy's history.",
-        image: "https://via.placeholder.com/150"
-      },{
-        name: "John Doe",
-        area: "Colombo",
-        age: "30-40",
-        gender: "Male",
-        experience: "5 years",
-        languages: ["English", "Sinhala"],
-        rating: 4.5,
-        bio: "Experienced tour guide with deep knowledge of Colombo.",
-        image: "https://via.placeholder.com/150"
-      }
-      // Add more guide data here
-    ];
-    setGuides(sampleGuides);
-    setFilteredGuides(sampleGuides);
+    fetch("http://localhost:8080/guides")
+      .then((response) => response.json())
+      .then((data) => {
+        setGuides(data);
+        setFilteredGuides(data);
+      })
+      .catch((error) => console.error("Error fetching guides:", error));
   }, []);
 
   // Filter guides based on selected criteria
@@ -160,12 +130,11 @@ const Guide = () => {
             <div className="guide-card-content">
               <h3 className="guide-card-name">{guide.name}</h3>
               <p className="guide-card-info">
-                Area: {guide.area} | Age: {guide.age} | Gender: {guide.gender}
-              </p>
-              <p className="guide-card-info">
-                Experience: {guide.experience} | Languages: {guide.languages.join(", ")}
+                Experience: {guide.experience} | 
+                Languages: {Array.isArray(guide.languages) ? guide.languages.join(", ") : guide.languages}
               </p>
               <p className="guide-card-bio">{guide.bio}</p>
+              <p className="guide-card-phone">Phone: {guide.phone}</p>
               <div className="guide-card-rating">Rating: {guide.rating} ★</div>
             </div>
           </div>
@@ -175,4 +144,4 @@ const Guide = () => {
   );
 };
 
-export default Guide;   
+export default Guide;

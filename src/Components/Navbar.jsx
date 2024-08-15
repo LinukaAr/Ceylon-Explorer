@@ -3,7 +3,6 @@ import { AiOutlineMenu } from "react-icons/ai";
 import '../assets/css/Navbar.css'; 
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
 
@@ -20,20 +19,20 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-links">
-          <Link to="/" spy={true} smooth={true} duration={500} className="navbar-link">
+          <Link to="/" className="navbar-link">
             Home
           </Link>
-          <Link to="guide" spy={true} smooth={true} duration={500} className="navbar-link">
+          <Link to="/guide" className="navbar-link">
             Find a Guide
           </Link>
-          <Link to="hotel" spy={true} smooth={true} duration={500} className="navbar-link">
+          <Link to="/hotel" className="navbar-link">
             Find a Hotel
           </Link>
-          <Link to="rent" spy={true} smooth={true} duration={500} className="navbar-link">
+          <Link to="/rent" className="navbar-link">
             Rent a Vehicle
           </Link>
-          <Link to="business" spy={true} smooth={true} duration={500} className="navbar-link">
-          Business Registration
+          <Link to="/business" className="navbar-link">
+            Business Registration
           </Link>
         </div>
 
@@ -41,8 +40,7 @@ const Navbar = () => {
           <AiOutlineMenu size={25} />
         </div>
       </div>
-
-         </>
+    </>
   );
 };
 
