@@ -4,12 +4,15 @@ import "../assets/css/Guide.css";
 const Guide = () => {
   const [guides, setGuides] = useState([]);
   const [filteredGuides, setFilteredGuides] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [languages, setLanguages] = useState([]); 
   const [area, setArea] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [experience, setExperience] = useState("");
   const [language, setLanguage] = useState("");
   const [search, setSearch] = useState("");
+  const [ratings, setRatings] = useState({});
 
   // Fetch guide data from the API
   useEffect(() => {
@@ -20,6 +23,32 @@ const Guide = () => {
         setFilteredGuides(data);
       })
       .catch((error) => console.error("Error fetching guides:", error));
+  }, []);
+
+  // Fetch areas and languages from the API
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const [areasResponse, languagesResponse] = await Promise.all([
+          fetch("http://localhost:8080/areas"),
+          fetch("http://localhost:8080/languages")
+        ]);
+
+        if (!areasResponse.ok || !languagesResponse.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const areasData = await areasResponse.json();
+        const languagesData = await languagesResponse.json();
+
+        setAreas(areasData);
+        setLanguages(languagesData);
+      } catch (error) {
+        console.error("Error fetching areas or languages:", error);
+      }
+    };
+
+    fetchFilters();
   }, []);
 
   // Filter guides based on selected criteria
@@ -36,6 +65,13 @@ const Guide = () => {
     });
     setFilteredGuides(filtered);
   }, [guides, area, age, gender, experience, language, search]);
+
+  const handleRatingChange = (guideId, rating) => {
+    setRatings((prevRatings) => ({
+      ...prevRatings,
+      [guideId]: rating,
+    }));
+  };
 
   return (
     <div className="guide-container">
@@ -59,9 +95,11 @@ const Guide = () => {
             onChange={(e) => setArea(e.target.value)}
           >
             <option value="">All Areas</option>
-            <option value="Colombo">Colombo</option>
-            <option value="Kandy">Kandy</option>
-            {/* Add more area options here */}
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
           </select>
         </div>
         <div>
@@ -114,28 +152,50 @@ const Guide = () => {
             onChange={(e) => setLanguage(e.target.value)}
           >
             <option value="">All Languages</option>
-            <option value="English">English</option>
-            <option value="Sinhala">Sinhala</option>
-            <option value="Tamil">Tamil</option>
-            {/* Add more language options here */}
+            {languages.map((lang) => (
+              <option key={lang} value={lang}>
+                {lang}
+              </option>
+            ))}
           </select>
         </div>
       </div>
 
       {/* Guide Cards Section */}
       <div className="guide-cards">
-        {filteredGuides.map((guide, index) => (
-          <div key={index} className="guide-card">
-            <img className="guide-card-img" src={guide.image} alt={guide.name} />
+        {filteredGuides.map((guide) => (
+          <div key={guide.id} className="guide-card">
+            <img className="guide-card-img" src={guide.image || "/default-image.jpg"} alt={guide.name} />
             <div className="guide-card-content">
               <h3 className="guide-card-name">{guide.name}</h3>
               <p className="guide-card-info">
-                Experience: {guide.experience} | 
-                Languages: {Array.isArray(guide.languages) ? guide.languages.join(", ") : guide.languages}
+                Experience: {guide.experience} |
+                Age: {guide.ageRange} | 
+                Gender: {guide.gender} |     
+                {/* Availability: {guide.availability} */}
+              </p>
+              <p className="guide-card-info">
+              Location: {guide.area} 
+              </p>
+              <p className="guide-card-info">
+                Languages: {Array.isArray(guide.languages) ? guide.languages.join(", ") : guide.languages} 
               </p>
               <p className="guide-card-bio">{guide.bio}</p>
-              <p className="guide-card-phone">Phone: {guide.phone}</p>
-              <div className="guide-card-rating">Rating: {guide.rating} ★</div>
+              <p className="guide-card-info">Phone: {guide.phone}</p>
+              <div className="guide-card-rating">
+                Rating: {guide.rating || "Not Rated"} ★
+                {/* <div className="guide-card-rate">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      className={`guide-card-rate-button ${ratings[guide.id] === star ? "selected" : ""}`}
+                      onClick={() => handleRatingChange(guide.id, star)}
+                    >
+                      {star} ★
+                    </button>
+                  ))}
+                </div> */}
+              </div>
             </div>
           </div>
         ))}

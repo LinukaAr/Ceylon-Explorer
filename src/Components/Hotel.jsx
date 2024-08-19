@@ -6,8 +6,8 @@ const Hotel = () => {
   const [hotels, setHotels] = useState([]);
   const [filteredHotels, setFilteredHotels] = useState([]);
   const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState("");
-  const [rating, setRating] = useState("");
+  const [price, setPriceRange] = useState("");
+  const [starRating, setRating] = useState("");
   const [amenities, setAmenities] = useState("");
   const [loading, setLoading] = useState(true); // State to handle loading status
   const [error, setError] = useState(null); // State to handle errors
@@ -38,13 +38,13 @@ const Hotel = () => {
     const filtered = hotels.filter((hotel) => {
       return (
         (location === "" || hotel.location === location) &&
-        (priceRange === "" || hotel.priceRange === priceRange) &&
-        (rating === "" || hotel.rating >= parseFloat(rating)) &&
-        (amenities === "" || (hotel.amenities && hotel.amenities.includes(amenities))) // Ensure amenities is defined and is an array
+        (price === "" || hotel.price === price) &&
+        (starRating === "" || hotel.starRating >= parseFloat(starRating)) &&
+        (amenities === "" || (hotel.amenities && hotel.amenities.includes(amenities))) // Check if amenities include the selected filter
       );
     });
     setFilteredHotels(filtered);
-  }, [hotels, location, priceRange, rating, amenities]);
+  }, [hotels, location, price, starRating, amenities]);
 
   return (
     <div className="hotel-container">
@@ -70,7 +70,7 @@ const Hotel = () => {
           <select
             className="hotel-filter-select"
             id="priceRange"
-            value={priceRange}
+            value={price}
             onChange={(e) => setPriceRange(e.target.value)}
           >
             <option value="">All Price Ranges</option>
@@ -84,7 +84,7 @@ const Hotel = () => {
           <select
             className="hotel-filter-select"
             id="rating"
-            value={rating}
+            value={starRating}
             onChange={(e) => setRating(e.target.value)}
           >
             <option value="">All Ratings</option>
@@ -115,14 +115,20 @@ const Hotel = () => {
         {Array.isArray(filteredHotels) && filteredHotels.length > 0 ? (
           filteredHotels.map((hotel, index) => (
             <div key={index} className="hotel-card">
-              <img className="hotel-card-img" src={hotel.image} alt={hotel.name} />
+              <img className="hotel-card-img" src={hotel.image || "/default-hotel-image.jpg"} alt={hotel.name} />
               <div className="hotel-card-content">
                 <h3 className="hotel-card-name">{hotel.name}</h3>
                 <p className="hotel-card-info">
-                  Location: {hotel.location} | Price: {hotel.priceRange} | Rating: {hotel.rating} ★
+                  Location: {hotel.location} | Price: {hotel.price}$ 
                 </p>
                 <p className="hotel-card-info">
-                  Amenities: {Array.isArray(hotel.amenities) ? hotel.amenities.join(", ") : "N/A"}
+                  Rating: {hotel.starRating} ★
+                </p>
+                <p className="hotel-card-info">
+                  Amenities: {hotel.amenities || "N/A"} | No. of Rooms: {hotel.rooms || "N/A"}
+                </p>
+                <p className="hotel-card-info">
+                  Phone: {hotel.phone || "N/A"} 
                 </p>
                 <p className="hotel-card-description">{hotel.description}</p>
               </div>

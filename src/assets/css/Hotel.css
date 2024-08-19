@@ -6,10 +6,11 @@
 }
 
 .hotel-heading {
-    font-size: 28px;
+    font-size: 35px;
     font-weight: 800;
     color: #111;
-    margin-bottom: 15px;
+    text-align: center;
+    margin-bottom: 35px;
 }
 
 .hotel-filter {

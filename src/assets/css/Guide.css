@@ -6,10 +6,11 @@
   }
   
   .guide-heading {
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
     color: #111; /* Darker color for better visibility */
-    margin-bottom: 15px;
+    text-align: center;
+    margin-bottom: 35px;
   }
   
   .guide-filter {
@@ -24,7 +25,10 @@
     margin-right: 5px;
     color: #333; /* Darker color for better visibility */
     font-weight: 800;
+  }
 
+  option{
+    font-weight: 800;
   }
   
   .guide-filter-select, .guide-filter-input {

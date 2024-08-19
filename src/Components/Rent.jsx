@@ -84,9 +84,10 @@ const Rent = () => {
         {filteredVehicles.map((vehicle) => (
           <div key={vehicle.id} className="vehicle-card">
             <div className="vehicle-card-content">
+              <img className="rent-card-img" src={vehicle.image || "/default-car-image.jpg"} alt={vehicle.name} />
               <h3 className="vehicle-card-name">{vehicle.model}</h3>
               <p className="vehicle-card-info">
-                Type: {vehicle.type} | Price Per Day: {vehicle.pricePerDay}
+                Type: {vehicle.type} | Price Per Day: {vehicle.pricePerDay}$
               </p>
               <p className="vehicle-card-info">Phone: {vehicle.phone}</p>
             </div>
