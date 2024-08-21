@@ -4,10 +4,10 @@ import '../assets/css/Navbar.css';
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [menu, setMenu] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleChange = () => {
-    setMenu(!menu);
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
@@ -19,26 +19,27 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-links">
-          <Link to="/" className="navbar-link">
-            Home
-          </Link>
-          <Link to="/guide" className="navbar-link">
-            Find a Guide
-          </Link>
-          <Link to="/hotel" className="navbar-link">
-            Find a Hotel
-          </Link>
-          <Link to="/rent" className="navbar-link">
-            Rent a Vehicle
-          </Link>
-          <Link to="/business" className="navbar-link">
-            Business Registration
-          </Link>
+          <Link to="/" className="navbar-link">Home</Link>
+          <Link to="/guide" className="navbar-link">Find a Guide</Link>
+          <Link to="/hotel" className="navbar-link">Find a Hotel</Link>
+          <Link to="/rent" className="navbar-link">Rent a Vehicle</Link>
+          <Link to="/business" className="navbar-link">Business Registration</Link>
         </div>
 
-        <div className="navbar-menu-icon" onClick={handleChange}>
+        <div className="navbar-menu-icon" onClick={handleMenuToggle}>
           <AiOutlineMenu size={25} />
         </div>
+      </div>
+
+      <div className={`navbar-mobile-menu ${menuOpen ? 'show' : ''}`}>
+        <div className="navbar-mobile-menu-close" onClick={handleMenuToggle}>
+          &times;
+        </div>
+        <Link to="/" className="navbar-link">Home</Link>
+        <Link to="/guide" className="navbar-link">Find a Guide</Link>
+        <Link to="/hotel" className="navbar-link">Find a Hotel</Link>
+        <Link to="/rent" className="navbar-link">Rent a Vehicle</Link>
+        <Link to="/business" className="navbar-link">Business Registration</Link>
       </div>
     </>
   );

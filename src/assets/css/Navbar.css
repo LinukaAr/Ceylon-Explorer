@@ -64,6 +64,10 @@
   gap: 1rem;
   transition: left 0.3s;
 }
+.navbar-mobile-menu {
+  z-index: 9999;
+}
+
 
 .navbar-mobile-menu.show {
   left: 0;
