@@ -165,7 +165,13 @@ const Guide = () => {
       <div className="guide-cards">
         {filteredGuides.map((guide) => (
           <div key={guide.id} className="guide-card">
-            <img className="guide-card-img" src={guide.image || "/default-image.jpg"} alt={guide.name} />
+            <img
+              className="guide-card-img"
+              src={guide.image ? `data:image/jpeg;base64,${guide.image}` : "/default-image.jpg"}
+              alt={guide.name}
+            />
+            {/* <img src={`data:image/jpeg;base64,${guide.image}`} alt="Guide Image" />  */}
+
             <div className="guide-card-content">
               <h3 className="guide-card-name">{guide.name}</h3>
               <p className="guide-card-info">

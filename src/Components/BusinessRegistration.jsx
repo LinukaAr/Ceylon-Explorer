@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../assets/css/BusinessRegistration.css';
+import '../axiosConfig';
 
 const provinces = [
   { value: '', label: 'Select Location' },
@@ -31,10 +32,10 @@ const provinces = [
 
 const BusinessRegistration = () => {
   const [businessType, setBusinessType] = useState('');
-  const [guideData, setGuideData] = useState({ name: '', experience: '', languages: '', phone: '', area: '', ageRange: '', gender: '', image: '' });
-  const [hotelData, setHotelData] = useState({ name: '', location: '', starRating: '', phone: '', price: '', amenities: '', rooms: '', image: '' });
-  const [vehicleData, setVehicleData] = useState({ type: '', model: '', pricePerDay: '', phone: '', image: '' });
-  
+  const [guideData, setGuideData] = useState({ name: '', experience: '', languages: '', phone: '', area: '', ageRange: '', gender: '', image: null });
+  const [hotelData, setHotelData] = useState({ name: '', location: '', starRating: '', phone: '', price: '', amenities: '', rooms: '', image: null });
+  const [vehicleData, setVehicleData] = useState({ type: '', model: '', pricePerDay: '', phone: '', image: null });
+
   const handleBusinessTypeChange = (e) => {
     setBusinessType(e.target.value);
   };
@@ -51,52 +52,87 @@ const BusinessRegistration = () => {
     setVehicleData({ ...vehicleData, [e.target.name]: e.target.value });
   };
 
-  const handleImageUpload = (e, type) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onloadend = () => {
-      if (type === 'guides') {
-        setGuideData({ ...guideData, image: reader.result });
-      } else if (type === 'hotel') {
-        setHotelData({ ...hotelData, image: reader.result });
-      } else if (type === 'vehicle') {
-        setVehicleData({ ...vehicleData, image: reader.result });
-      }
+      const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+      // Assuming you have a state to hold the image data
+      setGuideData({ ...guideData, image: base64String });
     };
-    if (file) reader.readAsDataURL(file);
   };
 
-  const handleSubmitGuide = (e) => {
+  const handleSubmitGuide = async (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/guides', guideData)
-      .then(response => {
+    const formData = new FormData();
+    formData.append('guide', JSON.stringify(guideData));
+    formData.append('image', guideData.image);
+
+    try {
+      const response = await axios.post('http://localhost:8080/guides', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
         alert('Guide registered successfully!');
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
+        setGuideData({ name: '', experience: '', languages: '', phone: '', area: '', ageRange: '', gender: '', image: null });
+      } else {
+        console.error('There was an error!', response.status, "image is", guideData.image);
+      }
+    } catch (error) {
+      console.error('There was an error!', error ,"image is", guideData.image);
+    }
   };
 
-  const handleSubmitHotel = (e) => {
+  const handleSubmitHotel = async (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/hotels', hotelData)
-      .then(response => {
+    const formData = new FormData();
+    formData.append('hotel', JSON.stringify(hotelData));
+    formData.append('image', hotelData.image);
+
+    try {
+      const response = await axios.post('http://localhost:8080/hotels', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
         alert('Hotel registered successfully!');
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
+        setHotelData({ name: '', location: '', starRating: '', phone: '', price: '', amenities: '', rooms: '', image: null });
+      } else {
+        console.error('There was an error!', response.status);
+      }
+    } catch (error) {
+      console.error('There was an error!', error);
+    }
   };
 
-  const handleSubmitVehicle = (e) => {
+  const handleSubmitVehicle = async (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/vehicles', vehicleData)
-      .then(response => {
-        alert('Vehicle registered successfully!');
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
+    const formData = new FormData();
+    formData.append('vehicle', JSON.stringify(vehicleData));
+    formData.append('image', vehicleData.image);
+
+    try {
+      const response = await axios.post('http://localhost:8080/vehicles', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
+
+      if (response.status === 200) {
+        alert('Vehicle registered successfully!');
+        setVehicleData({ type: '', model: '', pricePerDay: '', phone: '', image: null });
+      } else {
+        console.error('There was an error!', response.status);
+      }
+    } catch (error) {
+      console.error('There was an error!', error);
+    }
   };
 
   return (
@@ -155,14 +191,14 @@ const GuideForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
       <label className="form-label">Location:</label>
       <select className="form-input" name="area" value={data.area} onChange={handleChange}>
         {provinces.map((province) => (
-            <option key={province.value} value={province.value}>
-                {province.label}
-            </option>
+          <option key={province.value} value={province.value}>
+            {province.label}
+          </option>
         ))}
       </select>
       
       <label className="form-label">Age Range:</label>
-      <select className="form-input" name="ageRange"  value={data.ageRange} onChange={handleChange}>
+      <select className="form-input" name="ageRange" value={data.ageRange} onChange={handleChange}>
         <option value="">Select Age Range</option>
         <option value="20-30">20-30</option>
         <option value="30-40">30-40</option>
@@ -177,8 +213,7 @@ const GuideForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
       </select>
       
       <label className="form-label">Profile Image:</label>
-      <input className="form-input" type="file" accept="image/*" name="image" onChange={handleImageUpload} />
-      
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
       <button className="button" type="submit">Register Guide</button>
     </form>
   );
@@ -224,7 +259,6 @@ const HotelForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
       
       <label className="form-label">Hotel Image:</label>
       <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
-      
       <button className="button" type="submit">Register Hotel</button>
     </form>
   );
@@ -248,7 +282,8 @@ const VehicleForm = ({ handleChange, handleSubmit, data, handleImageUpload }) =>
       
       <label className="form-label">Vehicle Image:</label>
       <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
-      
+      <label className="form-label">Hotel Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
       <button className="button" type="submit">Register Vehicle</button>
     </form>
   );

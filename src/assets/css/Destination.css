@@ -6,26 +6,26 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  padding: 0 1.25rem; /* Adjust padding to reduce width */
+  padding: 0 1.25rem; 
 }
 
 .destination-title {
   font-weight: 600;
   text-align: center;
-  font-size: 2.25rem; /* Adjust as needed */
-  margin-top: 4.25rem; /* Space from top on smaller screens */
+  font-size: 2.25rem; 
+  margin-top: 4.25rem; 
 }
 
 .destination-cards {
   display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap */
-  gap: 1.25rem; /* Space between cards */
-  margin-top: 3.5rem; /* Space from title */
+  flex-wrap: wrap; 
+  gap: 1.25rem; 
+  margin-top: 3.5rem; 
 }
 
 .destination-card {
-  flex: 1 1 calc(33.333% - 1.25rem); /* Responsive card width */
-  min-width: 200px; /* Ensure cards are not too small */
+  flex: 1 1 calc(33.333% - 1.25rem); 
+  min-width: 290px; 
 }
 
 @media (min-width: 768px) {
