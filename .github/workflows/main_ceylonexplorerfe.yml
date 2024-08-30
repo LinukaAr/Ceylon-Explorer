@@ -27,11 +27,18 @@ jobs:
           npm run build --if-present
           npm run test --if-present
       
-      - name: Upload artifact for deployment job
+      - name: Compress files
+        run: |
+          tar -czf node-app.tar.gz . --exclude=node_modules --exclude=*.map
+
+      - name: Upload compressed artifact
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: node-app.tar.gz
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,14 +47,18 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: node-app
-      
+
+      - name: Extract files
+        run: |
+          tar -xzf node-app.tar.gz
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -55,11 +66,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_971AB017C6EF41718DF598845BDE1425 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A10AD3EA2E6142519472B9079D4A69C6 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'CeylonExplorerFE'
           slot-name: 'Production'
           package: .
-          
