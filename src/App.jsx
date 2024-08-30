@@ -14,7 +14,7 @@ import BusinessRegistration from "./Components/BusinessRegistration";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/Ceylon-Explorer">
       <Navbar />
       <main>
         <Routes>
