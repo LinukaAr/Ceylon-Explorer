@@ -29,7 +29,8 @@ jobs:
       
       - name: Compress files
         run: |
-          tar -czf node-app.tar.gz . --exclude=node_modules --exclude=*.map
+          cd $GITHUB_WORKSPACE
+          tar -czf node-app.tar.gz --exclude='./node_modules' --exclude='*.map' .
 
       - name: Upload compressed artifact
         uses: actions/upload-artifact@v4
