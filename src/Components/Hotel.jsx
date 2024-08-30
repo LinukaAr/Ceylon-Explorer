@@ -16,7 +16,7 @@ const Hotel = () => {
     // Fetch hotel data from API
     const fetchHotels = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/hotels"); // Replace with your API endpoint
+        const response = await axios.get("https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/hotels"); // Replace with your API endpoint
         if (Array.isArray(response.data)) {
           setHotels(response.data);
           setFilteredHotels(response.data);

@@ -70,7 +70,7 @@ const BusinessRegistration = () => {
     formData.append('image', guideData.image);
 
     try {
-      const response = await axios.post('http://localhost:8080/guides', formData, {
+      const response = await axios.post('https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/guides', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -94,7 +94,7 @@ const BusinessRegistration = () => {
     formData.append('image', hotelData.image);
 
     try {
-      const response = await axios.post('http://localhost:8080/hotels', formData, {
+      const response = await axios.post('https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/hotels', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -118,7 +118,7 @@ const BusinessRegistration = () => {
     formData.append('image', vehicleData.image);
 
     try {
-      const response = await axios.post('http://localhost:8080/vehicles', formData, {
+      const response = await axios.post('https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/vehicles', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

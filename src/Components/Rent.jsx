@@ -13,7 +13,7 @@ const Rent = () => {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/vehicles");
+        const response = await axios.get("https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/vehicles");
         console.log("API Response:", response.data); // Log the API response
         if (Array.isArray(response.data)) {
           setVehicles(response.data);

@@ -16,7 +16,7 @@ const Guide = () => {
 
   // Fetch guide data from the API
   useEffect(() => {
-    fetch("http://localhost:8080/guides")
+    fetch("https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/guides")
       .then((response) => response.json())
       .then((data) => {
         setGuides(data);
@@ -30,8 +30,8 @@ const Guide = () => {
     const fetchFilters = async () => {
       try {
         const [areasResponse, languagesResponse] = await Promise.all([
-          fetch("http://localhost:8080/areas"),
-          fetch("http://localhost:8080/languages")
+          fetch("http:https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/areas"),
+          fetch("https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/languages")
         ]);
 
         if (!areasResponse.ok || !languagesResponse.ok) {

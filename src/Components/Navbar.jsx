@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import '../assets/css/Navbar.css'; 
+import img from "../assets/img/logo.png";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -14,7 +15,7 @@ const Navbar = () => {
     <>
       <div className="navbar">
         <div className="navbar-left">
-          <img src="../../public/logo.png" alt="logo" className="navbar-logo" />
+          <img src={img} alt="logo" className="navbar-logo" />
           <h1 className="navbar-title">Ceylon Explore</h1>
         </div>
 
