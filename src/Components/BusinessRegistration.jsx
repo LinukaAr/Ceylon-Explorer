@@ -212,8 +212,8 @@ const GuideForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
         <option value="Female">Female</option>
       </select>
       
-      <label className="form-label">Profile Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
+      {/* <label className="form-label">Profile Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} /> */}
       <button className="button" type="submit">Register Guide</button>
     </form>
   );
@@ -257,8 +257,8 @@ const HotelForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
       <label className="form-label">Number of Rooms:</label>
       <input className="form-input" type="text" name="rooms" value={data.rooms} onChange={handleChange} placeholder="Enter number of rooms" />
       
-      <label className="form-label">Hotel Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
+      {/* <label className="form-label">Hotel Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} /> */}
       <button className="button" type="submit">Register Hotel</button>
     </form>
   );
@@ -280,10 +280,9 @@ const VehicleForm = ({ handleChange, handleSubmit, data, handleImageUpload }) =>
       <label className="form-label">Phone Number:</label>
       <input className="form-input" type="text" name="phone" value={data.phone} onChange={handleChange} placeholder="Enter phone number" />
       
-      <label className="form-label">Vehicle Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
-      <label className="form-label">Hotel Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
+      {/* <label className="form-label">Vehicle Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} /> */}
+      
       <button className="button" type="submit">Register Vehicle</button>
     </form>
   );
