@@ -52,15 +52,15 @@ const BusinessRegistration = () => {
     setVehicleData({ ...vehicleData, [e.target.name]: e.target.value });
   };
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = (event, type) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      const base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
-      // Assuming you have a state to hold the image data
-      setGuideData({ ...guideData, image: base64String });
-    };
+    if (type === 'guide') {
+      setGuideData({ ...guideData, image: file });
+    } else if (type === 'hotel') {
+      setHotelData({ ...hotelData, image: file });
+    } else if (type === 'vehicle') {
+      setVehicleData({ ...vehicleData, image: file });
+    }
   };
 
   const handleSubmitGuide = async (e) => {
@@ -92,14 +92,14 @@ const BusinessRegistration = () => {
     const formData = new FormData();
     formData.append('hotel', JSON.stringify(hotelData));
     formData.append('image', hotelData.image);
-
+  
     try {
       const response = await axios.post('https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/hotels', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
+  
       if (response.status === 200) {
         alert('Hotel registered successfully!');
         setHotelData({ name: '', location: '', starRating: '', phone: '', price: '', amenities: '', rooms: '', image: null });
@@ -116,14 +116,14 @@ const BusinessRegistration = () => {
     const formData = new FormData();
     formData.append('vehicle', JSON.stringify(vehicleData));
     formData.append('image', vehicleData.image);
-
+  
     try {
       const response = await axios.post('https://ceylonexplorerbe-a5cbfnfpddecajfr.eastus-01.azurewebsites.net/vehicles', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
+  
       if (response.status === 200) {
         alert('Vehicle registered successfully!');
         setVehicleData({ type: '', model: '', pricePerDay: '', phone: '', image: null });
@@ -212,8 +212,8 @@ const GuideForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
         <option value="Female">Female</option>
       </select>
       
-      {/* <label className="form-label">Profile Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} /> */}
+      <label className="form-label">Profile Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
       <button className="button" type="submit">Register Guide</button>
     </form>
   );
@@ -257,8 +257,8 @@ const HotelForm = ({ handleChange, handleSubmit, data, handleImageUpload }) => {
       <label className="form-label">Number of Rooms:</label>
       <input className="form-input" type="text" name="rooms" value={data.rooms} onChange={handleChange} placeholder="Enter number of rooms" />
       
-      {/* <label className="form-label">Hotel Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} /> */}
+      <label className="form-label">Hotel Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
       <button className="button" type="submit">Register Hotel</button>
     </form>
   );
@@ -280,8 +280,8 @@ const VehicleForm = ({ handleChange, handleSubmit, data, handleImageUpload }) =>
       <label className="form-label">Phone Number:</label>
       <input className="form-input" type="text" name="phone" value={data.phone} onChange={handleChange} placeholder="Enter phone number" />
       
-      {/* <label className="form-label">Vehicle Image:</label>
-      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} /> */}
+      <label className="form-label">Vehicle Image:</label>
+      <input className="form-input" type="file" accept="image/*" onChange={handleImageUpload} />
       
       <button className="button" type="submit">Register Vehicle</button>
     </form>
